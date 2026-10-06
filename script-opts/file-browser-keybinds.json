@@ -1,15 +1,15 @@
 [
     {
         "key": "WHEEL_UP",
-        "command": ["script-binding", "file_browser/dynamic/scroll_up"]
+        "command": ["script-binding", "file_browser/dynamic/mouse_scroll_up"]
     },
     {
         "key": "WHEEL_DOWN",
-        "command": ["script-binding", "file_browser/dynamic/scroll_down"]
+        "command": ["script-binding", "file_browser/dynamic/mouse_scroll_down"]
     },
     {
         "key": "MBTN_LEFT",
-        "command": ["script-binding", "file_browser/dynamic/down_dir"]
+        "command": ["script-binding", "file_browser/dynamic/mouse_open"]
     },
     {
         "key": "MBTN_RIGHT",

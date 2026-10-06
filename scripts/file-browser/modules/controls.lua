@@ -17,6 +17,18 @@ local controls = {}
 function controls.open()
     if not g.state.hidden then return end
 
+    g.state.mouse_hover_index = nil
+    g.state.view_anchor_index = nil
+
+    local wh = mp.get_property_number("osd-height", 720) or 720
+    local playing = mp.get_property_native("video-params") ~= nil
+    local sr = math.sqrt(wh)
+    if playing then
+        g.ass.res_y = math.max(600, math.min(900, sr * 27.0)) / o.scaling_factor_base
+    else
+        g.ass.res_y = math.max(660, math.min(970, sr * 24.8)) / o.scaling_factor_base
+    end
+
     for _,v in ipairs(g.state.keybinds) do
         mp.add_forced_key_binding(v[1], 'dynamic/'..v[2], v[3], v[4])
     end
@@ -39,6 +51,9 @@ end
 --closes the list and sets the hidden flag
 function controls.close()
     if g.state.hidden then return end
+
+    g.state.mouse_hover_index = nil
+    g.state.view_anchor_index = nil
 
     for _,v in ipairs(g.state.keybinds) do
         mp.remove_key_binding('dynamic/'..v[2])
@@ -79,7 +94,10 @@ function controls.browse_directory(directory, open_browser)
     if not directory then return end
     if open_browser == nil then open_browser = true end
 
-    directory = mp.command_native({"expand-path", directory}, '') --[[@as string]]
+    local looks_like_fs_path = directory:match("^[~%%\\/%.]") or directory:match("^%a:[/\\]")
+    if looks_like_fs_path then
+        directory = mp.command_native({"expand-path", directory}, '') --[[@as string]]
+    end
     -- directory = join_path( mp.get_property("working-directory", ""), directory )
 
     if directory ~= "" then directory = fb_utils.fix_path(directory, true) end

@@ -4,6 +4,7 @@
 --------------------------------------------------------------------------------------------------------
 
 local g = require 'modules.globals'
+local o = require 'modules.options'
 local fb_utils = require 'modules.utils'
 local ass = require 'modules.ass'
 
@@ -51,6 +52,8 @@ function cursor.scroll(n, wrap)
     local num_items = #g.state.list
     if num_items == 0 then return end
 
+    g.state.view_anchor_index = nil
+    g.state.mouse_hover_index = nil
     local original_pos = g.state.selected
 
     if original_pos + n > num_items then
@@ -62,6 +65,33 @@ function cursor.scroll(n, wrap)
     end
 
     if g.state.multiselect_start then drag_select(original_pos, g.state.selected) end
+    ass.update_ass()
+end
+
+function cursor.scroll_view(n, wrap)
+    local num_items = #g.state.list
+    if num_items == 0 then return end
+
+    local start = ass.view_window()
+    local max_start = math.max(1, num_items - o.num_entries + 1)
+    local next_start = start + n
+
+    if next_start > max_start then
+        next_start = wrap and 1 or max_start
+    elseif next_start < 1 then
+        next_start = wrap and max_start or 1
+    end
+
+    local mid = math.ceil(o.num_entries / 2) + 1
+    local anchor = next_start + o.num_entries - mid - 1
+
+    if anchor < 1 then anchor = 1 end
+    if anchor > num_items then anchor = num_items end
+
+    g.state.view_anchor_index = anchor
+    if not g.state.multiselect_start then
+        g.state.mouse_hover_index = ass.item_at_mouse()
+    end
     ass.update_ass()
 end
 

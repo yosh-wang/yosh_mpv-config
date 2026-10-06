@@ -16,8 +16,12 @@ local controls = require 'modules.controls'
 local movement = require 'modules.navigation.directory-movement'
 local scanning = require 'modules.navigation.scanning'
 local cursor = require 'modules.navigation.cursor'
+local mouse = require 'modules.navigation.mouse'
 
 g.state.keybinds = {
+    {'MBTN_LEFT',   'mouse_open',       mouse.open_at_pointer,                              {complex = true}},
+    {'WHEEL_DOWN',  'mouse_scroll_down', function() mouse.scroll_at_pointer(1, o.wrap) end, {repeatable = true}},
+    {'WHEEL_UP',    'mouse_scroll_up',   function() mouse.scroll_at_pointer(-1, o.wrap) end,{repeatable = true}},
     {'ENTER',       'play',             function() playlist.add_files('replace', false) end},
     {'Shift+ENTER', 'play_append',      function() playlist.add_files('append-play', false) end},
     {'Alt+ENTER',   'play_autoload',    function() playlist.add_files('replace', true) end},

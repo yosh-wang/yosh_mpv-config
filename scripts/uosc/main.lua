@@ -103,6 +103,9 @@ defaults = {
 	languages = 'slang,en',
 	subtitles_directory = '~~/subtitles',
 	disable_elements = '',
+	idlescreen = true,
+	idlemsg = 'default',
+	idlelogo_scale = 1.15,
 	ziggy_path = 'default',
 }
 options = table_copy(defaults)
@@ -429,6 +432,8 @@ state = {
 	hidpi_scale = 1,
 	scale = 1,
 	radius = 0,
+	idlescreen = options.idlescreen,
+	idlemsg = options.idlemsg,
 }
 buttons = require('lib/buttons')
 thumbnail = {width = 0, height = 0, disabled = false}
@@ -1169,6 +1174,19 @@ local constructors = {
 -- Required elements
 require('elements/Curtain'):new()
 
+-- Idle logo (ported from uosc v5.12.1, identical to mpv-lazy's center mark)
+if options.idlescreen then
+	require('elements/Logo'):new()
+	mp.register_script_message('osc-idlescreen', function(mode, no_osd)
+		if mode == 'cycle' then mode = state.idlescreen and 'no' or 'yes' end
+		set_state('idlescreen', mode == 'yes')
+		mp.set_property_native('user-data/osc', { idlescreen = state.idlescreen })
+		if not no_osd and mp.get_property_number('osd-level', 1) >= 1 then
+			mp.osd_message('LOGO的可见性：' .. tostring(mode))
+		end
+	end)
+end
+
 -- Element manager
 -- Handles creating and destroying elements based on disabled_elements user+script config.
 Manager = {
@@ -1207,3 +1225,6 @@ end
 
 -- Initial commit
 Manager:disable('user', options.disable_elements)
+
+-- 加载视频技术标签独立模块 (MediaInfo)
+require('elements/MediaInfo'):new()

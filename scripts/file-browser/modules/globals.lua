@@ -30,7 +30,7 @@ end
 assert(mp.create_osd_overlay, "Script requires minimum mpv version 0.33")
 
 globals.ass = mp.create_osd_overlay("ass-events")
-globals.ass.res_y = 720 / o.scaling_factor_base
+globals.ass.res_y = 850 / o.scaling_factor_base
 
 local BASE_FONT_SIZE = 25
 
@@ -45,13 +45,15 @@ globals.ASS_ALIGNMENT_MATRIX = {
 globals.ALIGN_X = o.align_x == 'auto' and mp.get_property('osd-align-x', 'left') or o.align_x
 globals.ALIGN_Y = o.align_y == 'auto' and mp.get_property('osd-align-y', 'top') or o.align_y
 
+local border_tags = "\\bord1.5\\shad0\\3c&H3A2410&"
+
 globals.style = {
-    global = ([[{\an%d}]]):format(globals.ASS_ALIGNMENT_MATRIX[globals.ALIGN_Y][globals.ALIGN_X]),
+    global = ([[{\an%d%s}]]):format(globals.ASS_ALIGNMENT_MATRIX[globals.ALIGN_Y][globals.ALIGN_X], border_tags),
 
     -- full line styles
-    header = ([[{\r\q2\b%s\fs%d\fn%s\c&H%s&}]]):format((o.font_bold_header and "1" or "0"), o.scaling_factor_header*BASE_FONT_SIZE, o.font_name_header, o.font_colour_header),
-    body = ([[{\r\q2\fs%d\fn%s\c&H%s&}]]):format(BASE_FONT_SIZE, o.font_name_body, o.font_colour_body),
-    footer_header = ([[{\r\q2\fs%d\fn%s\c&H%s&}]]):format(o.scaling_factor_wrappers*BASE_FONT_SIZE, o.font_name_wrappers, o.font_colour_wrappers),
+    header = ([[{\r\q2\b%s\fs%d\fn%s\c&H%s&%s}]]):format((o.font_bold_header and "1" or "0"), o.scaling_factor_header*BASE_FONT_SIZE, o.font_name_header, o.font_colour_header, border_tags),
+    body = ([[{\r\q2\fs%d\fn%s\c&H%s&%s}]]):format(BASE_FONT_SIZE, o.font_name_body, o.font_colour_body, border_tags),
+    footer_header = ([[{\r\q2\fs%d\fn%s\c&H%s&%s}]]):format(o.scaling_factor_wrappers*BASE_FONT_SIZE, o.font_name_wrappers, o.font_colour_wrappers, border_tags),
 
     --small section styles (for colours)
     multiselect = ([[{\c&H%s&}]]):format(o.font_colour_multiselect),
@@ -62,17 +64,20 @@ globals.style = {
 
     --icon styles
     indent = ([[{\alpha&H%s}]]):format('ff'),
-    cursor = ([[{\fn%s\c&H%s&}]]):format(o.font_name_cursor, o.font_colour_cursor),
-    cursor_select = ([[{\fn%s\c&H%s&}]]):format(o.font_name_cursor, o.font_colour_multiselect),
-    cursor_deselect = ([[{\fn%s\c&H%s&}]]):format(o.font_name_cursor, o.font_colour_selected),
-    folder = ([[{\fn%s}]]):format(o.font_name_folder),
+    cursor = ([[{\fn%s\c&H%s&%s}]]):format(o.font_name_cursor, o.font_colour_cursor, border_tags),
+    cursor_select = ([[{\fn%s\c&H%s&%s}]]):format(o.font_name_cursor, o.font_colour_multiselect, border_tags),
+    cursor_deselect = ([[{\fn%s\c&H%s&%s}]]):format(o.font_name_cursor, o.font_colour_selected, border_tags),
+    folder = ([[{\fn%s%s}]]):format(o.font_name_folder, border_tags),
     selection_marker = ([[{\alpha&H%s}]]):format(o.font_opacity_selection_marker),
+    spacer = ([[{\r\fs%d}\h]]):format(math.floor(BASE_FONT_SIZE * 0.45)),
 }
 
 ---@type State
 globals.state = {
     list = {},
     selected = 1,
+    mouse_hover_index = nil,
+    view_anchor_index = nil,
     hidden = true,
     flag_update = false,
     keybinds = nil,
