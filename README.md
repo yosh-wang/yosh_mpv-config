@@ -189,12 +189,13 @@ idlelogo_scale=1.15           # 中央 Logo 独立倍率（0=自动按窗口高�
 
 | 配置项 | 文件 | yosh 取值 | 作用 |
 |--------|------|-----------|------|
-| 右键菜单缩放 | `context_menu_yosh.conf` | `menu_min_scale=1.5` / `menu_max_scale=3.5` | 自适应宽度，长菜单不截断 |
-| 起播格式 Logo | `startup_format_logos.conf` | `enabled=yes`, `style=color` | 开播展示专业格式徽章 |
-| 视频技术标签 | `mediainfo.conf` | `mediainfo_enabled=yes` | 控制栏技术参数标签 |
-| 空闲页 Logo | `uosc.conf` | `idlelogo_scale=1.15` | 中央 mpv Logo 倍率 |
-| 时间轴显示 | `uosc.conf` | `destination_time=total` | 右侧显示总时长 |
-| 音量/倍速持久 | `uosc.conf` | `volume/speed_persistency=idle` | 空闲保持设置 |
+| 右键菜单缩放 | `context_menu_yosh.conf` | `1.5`~`3.5` | menu_min/max_scale：自适应宽度，长菜单不截断 |
+| 起播格式 Logo | `startup_format_logos.conf` | `yes`/`color` | enabled/style：开播展示专业格式徽章 |
+| 视频技术标签 | `mediainfo.conf` | `yes` | mediainfo_enabled：控制栏技术参数标签 |
+| 空闲页 Logo | `uosc.conf` | `1.15` | idlelogo_scale：中央 mpv Logo 倍率 |
+| 时间轴显示 | `uosc.conf` | `total` | destination_time：右侧显示总时长 |
+| 音量/倍速持久 | `uosc.conf` | `idle` | volume/speed_persistency：空闲保持设置 |
+
 
 ---
 
