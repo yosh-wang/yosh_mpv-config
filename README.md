@@ -189,7 +189,7 @@ idlelogo_scale=1.15           # 中央 Logo 独立倍率（0=自动按窗口高�
 
 | 配置项 | 文件 | yosh 取值 | 作用 |
 |--------|------|-----------|------|
-| 右键菜单缩放 | `context_menu_yosh.conf` | `1.5`~`3.5` | menu_min/max_scale：自适应宽度，长菜单不截断 |
+| 右键菜单缩放 | `context_menu_yosh.conf` | `1.5`~`3.5` | menu_min/max_scale：自适应宽度 |
 | 起播格式 Logo | `startup_format_logos.conf` | `yes`/`color` | enabled/style：开播展示专业格式徽章 |
 | 视频技术标签 | `mediainfo.conf` | `yes` | mediainfo_enabled：控制栏技术参数标签 |
 | 空闲页 Logo | `uosc.conf` | `1.15` | idlelogo_scale：中央 mpv Logo 倍率 |
