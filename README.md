@@ -54,13 +54,13 @@
 
 | # | 优化模块 | 类型 | 说明 |
 |---|---------|------|------|
-| 1 | 右键上下文菜单 `context_menu_yosh` | 新增 | 独立维护的鼠标中键/右键菜单，增加菜单项间隙等视觉微调 |
-| 2 | 起播专业格式 Logo `startup-format-logos` | 新增 | 开播展示 Dolby Vision / HDR10+ / Atmos / DTS-X 等格式徽章 |
-| 3 | 视频技术参数标签 `uosc MediaInfo` | 新增 | 控制栏上方实时显示编码/分辨率/HDR/音频技术参数 |
-| 4 | 统计信息面板 `stats`（中文版） | 新增 | 汉化版 stats.lua + 调校配置 |
-| 5 | HDR 自动切换 `toggleHDR` | 新增 | 按显示器 HDR/SDR 状态自动切换 |
+| 1 | 右键上下文菜单| 新增 | 独立维护的鼠标中键/右键菜单，增加菜单项间隙等视觉微调 |
+| 2 | 起播专业格式 Logo  | 新增 | 开播展示 Dolby Vision / HDR10+ / Atmos / DTS-X 等格式徽章 |
+| 3 | 视频技术参数标签  | 新增 | 控制栏上方实时显示编码/分辨率/HDR/音频技术参数 |
+| 4 | 统计信息面板（中文版） | 新增 | 汉化版 stats.lua + 调校配置 |
+| 5 | HDR 自动切换  | 新增 | 按显示器 HDR/SDR 状态自动切换 |
 | 6 | 文件浏览器鼠标导航 | 增强 | file-browser 增加鼠标滚轮/光标导航 |
-| 7 | 打开文件重置倍速 | 新增 | `reset_speed_on_file` 避免倍速残留 |
+| 7 | 打开文件重置倍速 | 新增 | 避免倍速残留 |
 | 8 | uosc 界面与空闲页优化 | 调校 | 透明度、音量/倍速持久化、空闲页中央 Logo |
 | 9 | 图标字体升级 | 升级 | MaterialIcons → modernz-icons / uosc_icons |
 | 10 | 其余脚本配置微调 | 调校 | trackselect / recentmenu / dynamic_crop 等约 12 项 conf 微调 |
@@ -172,6 +172,17 @@ idlelogo_scale=1.15           # 中央 Logo 独立倍率（0=自动按窗口高�
 
 `trackselect.conf`(+19) · `recentmenu.conf`(+2) · `dynamic_crop.conf`(+2) · `persist_properties.conf`(+2) · `sub_assrt.conf`(+2) · `sub_fastwhisper.conf`(+8) · `thumbfast.conf`(+2) · `webui.conf`(+2) · `hdr_mode.conf`(+4) · `history_bookmark.conf`(+2) · `file-browser-keybinds.json`(+6) · `uosc_danmaku.conf`(+2)
 
+### 11. 空闲页 Logo（空白页显示）🖼️
+当 mpv 处于**空闲状态**（未加载任何视频、播放器显示空白页）时，uosc 会在画面中央绘制一个 **Logo + 文字** 的空闲页，避免一片黑屏。
+
+- `idlescreen=yes` —— 总开关，开启空闲页
+- `idlemsg=yosh.wang` —— 空闲页中央文字（可改成任意内容，如你的 ID / 标语）
+- `idlelogo_scale=1.15` —— 中央 Logo 的独立缩放倍率（`0` = 自动按窗口高度换算，数值越大 Logo 越大）
+- Logo 图形取自第 9 节升级后的图标字体（`modernz-icons` / `uosc_icons`），显示更清晰
+- 空闲页同时提供「统计 / 画质 / 封面 / 章节 / 倍速 / 播放列表」等入口（见第 8 节 `controls` 行的 `<idle>` 状态）
+
+> 说明：空闲页 Logo 是 uosc 自带能力，本仓库仅做了**缩放倍率（1.15）与中央文字（yosh.wang）的个性化**，未改动其显示逻辑。
+
 ---
 
 ## ⚙️ 关键参数速查
@@ -184,8 +195,6 @@ idlelogo_scale=1.15           # 中央 Logo 独立倍率（0=自动按窗口高�
 | 空闲页 Logo | `uosc.conf` | `idlelogo_scale=1.15` | 中央 mpv Logo 倍率 |
 | 时间轴显示 | `uosc.conf` | `destination_time=total` | 右侧显示总时长 |
 | 音量/倍速持久 | `uosc.conf` | `volume/speed_persistency=idle` | 空闲保持设置 |
-| 智能 HDR | `toggleHDR.conf` | `enabled=no`（按需开） | 显示器 HDR 自动切换 |
-| 硬解 API | `mpv.conf` | `hwdec=d3d11va`（继承自上游最新） | Windows 硬解加速 |
 
 ---
 
